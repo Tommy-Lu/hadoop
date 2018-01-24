@@ -1,0 +1,21 @@
+Programing Flow:
+1, Get the input file ,there are 508 files .
+
+2, Merge all input files into a file use python .
+	use command : python merge_files.py input_tfidf_dir/
+	merged file generate: merge_file.txt 
+
+3, calculate TF form every word
+	map.py : get the merge_file.txt and output key value for every word
+	use command to check map program : cat merge_file.txt  | python map.py |head -n 100
+	red_tf.py : calculate the tf for word 
+
+4, calculate tf-idf value . 
+	map_tf-idf.py
+	input: merge_file.txt , tf_table dict from step 3
+	output: tf-idf table {key, value} format
+
+5, sh_tf-idf.sh shell script
+	step1: for calcutate tf
+	step2: calculate tf-idf and output.
+
