@@ -3,6 +3,9 @@
 
 import sys
 
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 for line in sys.stdin:
 	ss = line.strip().split("\t")
 	if len(ss) != 2:
