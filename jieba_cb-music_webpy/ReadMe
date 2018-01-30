@@ -1,0 +1,39 @@
+
+编程流程：
+
+  输入文件：
+	jieba : 用户jieba分词，获取关键词及权重
+	music_meta.txt.small ：输入待处理数据
+	web ：webpy源码包，用于搭建webpy服务器，用户交互界面
+
+  输出文件：
+	
+
+Step1：
+  根据输入的music MetaData得到数据表： music_tag_weight_table
+  music_id    music_name    关键词1CtrlB权重1CtrlA 关键词2CtrlB权重2CtrlA...
+  Test Command : cat music_meta.txt.small  | python map_get_tags_weight.py | head  -n 100
+  输出：
+  9999156333      龙梅子 老猫 姑娘我铁了心跟着你啦        老猫2.39095350058 铁了心2.04742320116 梅子1.63089489229 姑娘1.19088280168 跟着1.16935811367
+
+Step2：
+  将得到的 music_tag_weight_table正排转倒排，得到 tag_music_weight_table
+  map_invert.py : 将输入的数据按照 tag, music_name, score 的格式输出
+  red_invert.py ：将输入的数据按照tag进行汇聚输出
+
+  输出格式：
+  tag	name1score1name2score2.....
+  黎明    黎明柔《你的自大让我快乐》2.673381555按照黎明 - 两个人的烟火 搜喵现场MV1.604028933按照陈慧娴 - 黎明不要来 搜喵现场MV1.604028933按照黎明 - 爱情影画戏 搜喵现场MV1.604028933按照有钱没钱回家过年-龙梅子-曾黎明经典歌曲1.33669077按照【自制MV】黄沾传世经典??????青蛇MV《黎明不要来》1.0025180832
+
+Step3：
+  搭建webpy服务器
+  1>将获取到的字符串进行分词获取到关键词
+  2>将得到的关键词查表tag_music_weight_table，得到适配的music名字和weight
+  3>将匹配到的music名字和weight按照weight大小作为推荐输出
+
+
+
+
+
+
+
