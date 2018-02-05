@@ -1,0 +1,43 @@
+基于User Base CF的推荐算法（电影推荐）
+
+1,数据说明：
+	all_datas
+		movies.dat：
+			MovieID::Title::Genres
+			电影ID，电影名称，电影类型
+		ratings.dat：
+			UserID::MovieID::Rating::Timestamp
+			用户ID，电影ID，用户评分，时间戳
+		tags.dat：
+			UserID::MovieID::Tag::Timestamp
+			用户ID，电影ID，用户评价TAG，时间戳
+
+2，数据处理说明
+	ratings.dat：处理得到用户，电影ID，评分，用户计算用户间相似度
+		UserID::MovieID::Rating::Timestamp ==> UserID	MovieID	Rating
+	
+	movies.dat：处理得到电影ID和电影名称的字典，用户最后推荐给用户时显示电影名字
+		MovieID::Title::Genres ==> {MovieID:Title}
+
+
+3，求用户间相似度
+	3.1 数据归一化处理
+		map file: 1_normalized_map.py
+		red file: 1_normalized_red.py
+	
+	3.2 进行u-u pair对，计算单个item下两两用户之间的相似度
+		map file：2_get_singel_similar_map.py
+		red file: 2_get_singel_similar_red.py
+	
+	3.3 汇聚上一步输出的用户相似度得到总的用户相似度
+		map file：3_sum_similar_map.py
+		red file: 3_sum_similar_red.py
+		
+4, 推荐电影给给定用户
+	4.1 处理movies.dat得到mid_mname_dict {MovieID:Title}字典
+		处理ratings.dat得到user_movies_dict {user:(movie_id1,movie_id2,...),...}字典，用户查询用户都看过那些电影。
+	4.2 根据给出的用户查相似度，找到最相似的TOP 10用户,将Top 10用户查询user_movies_dict得到top 10用户的观影集top10_movies_list
+	4.3 将用户查询user_movies_dict，得到该用户观看过的电影列表 user_watched_list [movieID1,movieID2...]
+	4.4 在top10_movies_list中去掉user_watched_list中包含的元素，将剩余的推荐给该用户。
+
+
